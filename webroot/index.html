@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Collaboraview</title>
+<link rel="stylesheet" href="/webroot/css/taskmanager.css" />
+<script src="/webroot/js/jquery-1.6.4.min.js"></script>
+<script src="/webroot/js/jquery.easing.1.3.js"></script>
+<script src="/nowjs/now.js"></script>
+<script src="/webroot/js/taskmanager-1.0.js"></script>
+
+<script>
+	$(document).ready(function(){
+		
+		taskmanager.username = prompt("What's your name?", "");
+		now.username = taskmanager.username;
+		
+		taskmanager.color = prompt("What's your color?", "");
+		now.color = taskmanager.color;
+		
+		taskmanager.createUser(taskmanager.username, taskmanager.color);
+		//taskmanager.populateRoom();
+		
+	});
+	
+	
+	
+</script>
+</head>
+
+<body>
+	<header>
+		<div id="users_wrap"><ul id="users"></ul></div>
+	</header>
+
+	<footer>
+		<div id="console"></div>
+	</footer>
+</body>
+
+</html>
