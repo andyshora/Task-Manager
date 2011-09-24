@@ -51,7 +51,36 @@
 			height:12px;
 			padding:4px 5px 4px 10px;
 		}
-	
+	#color_picker_wrap {
+		width:90px;
+		padding:2px;
+		margin:0;
+		border:1px solid #ccc;
+		float:left;
+		position:fixed;
+		top:10px;
+		right:110px;
+		display:none;
+	}
+		ul#color_picker {
+			margin:0;
+			padding:0;
+			float:left;
+		}
+			ul#color_picker > li {
+				float:left;
+				width:30px;
+				height:30px;
+				list-style-type: none;
+				padding:0px;
+				margin:0;
+				cursor:pointer;
+			}
+			ul#color_picker > li:hover {
+				width:28px;
+				height:28px;
+				border:1px solid #000;
+			}
 
 footer > div#console {
 	position:fixed;
