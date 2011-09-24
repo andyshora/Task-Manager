@@ -50,7 +50,7 @@ server.listen(8080);
 
 
 var nowjs = require("now");
-var everyone = nowjs.initialize(server, {socketio: {transports: ['xhr-polling', 'jsonp-polling', 'htmlfile']}});
+var everyone = nowjs.initialize(server);
 
 
 nowjs.on('connect', function(){

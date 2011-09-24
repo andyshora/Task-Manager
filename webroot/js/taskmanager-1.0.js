@@ -16,11 +16,9 @@ taskmanager.colors = ['red','blue','green','yellow','pink','purple','aqua','oran
 // ------- CORE FUNCTIONS -------
 
 // create a labelled point in the space to represent a user
-taskmanager.createUser = function(username, color, notifyServer){
+taskmanager.createUser = function(username, color){
 
 	if (taskmanager.doesUserExist(username)) return false;
-	
-	if (notifyServer === undefined) notifyServer = true;
 
 	taskmanager.currentUsers.push({'username':username, 'color':color});
 	
@@ -38,6 +36,14 @@ taskmanager.createUser = function(username, color, notifyServer){
 };
 
 taskmanager.removeUser = function(username){
+	// remove from array
+	var i = -1;
+	for (u in taskmanager.currentUsers){
+		if (username === (taskmanager.currentUsers[u]).username) i=u;
+	}
+	
+	if (i!==-1) taskmanager.currentUsers.splice(i, 1);
+	
 	$('#taskmanager_user_' + taskmanager.getFriendly(username)).animate({ right:'-100px' }, 800, 'easeInOutCirc', function(){
 		$(this).remove();
 	});
@@ -88,7 +94,7 @@ $(document).ready(function(){
 		//if () return false;
 		if (taskmanager.username !== username){
 			taskmanager.log('NOW Push Received {0} {1} {2}'.format2("CreateUser",username,color));
-			taskmanager.createUser(username, color, false);
+			taskmanager.createUser(username, color);
 		}
 	};
 	
@@ -107,7 +113,7 @@ $(document).ready(function(){
 		// only the guy who made the request for beacons needs to create the other users
 		if (taskmanager.username === new_username){
 			taskmanager.log('Creating user from beacon {0} {1}'.format2(username, color));
-			taskmanager.createUser(username, color, false);
+			taskmanager.createUser(username, color);
 		}
 	};
 	
@@ -122,11 +128,8 @@ $(document).ready(function(){
 	
 	// user disconnected, remove them
 	now.RemoveUser = function(username){
-		// if this user made the request then the color has already been changed
-		if (taskmanager.username !== username){
 			taskmanager.log('{0} disconnected'.format(username));
 			taskmanager.removeUser(username);
-		}
 	};
 	
 	taskmanager.initColorPicker();
