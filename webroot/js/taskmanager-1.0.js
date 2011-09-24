@@ -83,12 +83,32 @@ taskmanager.initColorPicker = function(){
 	$('footer').append(html);
 };
 
+taskmanager.initControls = function(){
+	$('#add').bind('keydown', function(e){
+		if (e.keyCode == 13){
+			var text = $(this).val();
+			taskmanager.log("Adding item: {0}".format(text));
+			taskmanager.addToList(text);
+			$(this).val('');
+			now.sv_AddToList(taskmanager.username, text);
+		}
+	});
+};
+
+taskmanager.addToList = function(text){
+	var html = '<li class="item">{0}</li>'.format(text);
+	if (($('li.item')).length > 0){
+		$('li.item:last').after(html);
+	} else {
+		$('li#add_row').before(html);
+	}
+};
+
 // ------- EVENT HANDLERS -------
 
 
 
 $(document).ready(function(){
-	
 	
 	now.CreateUser = function(username, color){
 		//if () return false;
@@ -132,7 +152,17 @@ $(document).ready(function(){
 			taskmanager.removeUser(username);
 	};
 	
+	// add tast to list, if this user didnt add it
+	now.AddToList = function(username, text){
+			if (username !== taskmanager.username){
+				taskmanager.addToList(text);
+			}
+	};
+	
 	taskmanager.initColorPicker();
+	taskmanager.initControls();
+	
+	$('#add').focus();
 	
 });
 

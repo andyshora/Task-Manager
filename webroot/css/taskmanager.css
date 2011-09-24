@@ -7,6 +7,18 @@
 	-moz-box-shadow: 0px 0px 0px 5px #a0eaff;
 	box-shadow: 0px 0px 0px 5px #a0eaff; 
 */
+body {
+	font-family: Arial;
+}
+header {
+	width:100%;
+	height:100px;
+	float:left;
+	clear:both;
+}
+section {
+	clear:both;
+}
 
 #users_wrap {
 	position:fixed;
@@ -81,6 +93,40 @@
 				height:28px;
 				border:1px solid #000;
 			}
+			
+#list_wrap {
+	width:500px;
+	margin:10px auto;
+}
+	ul#list {
+		margin:0;
+		padding:0;
+	}
+		ul#list > li {
+			width:500px;
+			height:24px;
+			padding:11px 5px 0px 5px;
+			border-bottom: 1px dashed #ccc;
+			font-size: 14px;
+			line-height:14px;
+		}
+		ul#list > li#add_row {
+			padding:5px;
+			height:30px;
+			border:0;
+		}
+			div#add_wrap {
+				
+			}
+				input#add {
+					width:490px;
+					height:25px;
+					border: none;
+					padding:0;
+					font-family: Arial;
+					font-size: 14px;
+					outline:none;
+				}
 
 footer > div#console {
 	position:fixed;

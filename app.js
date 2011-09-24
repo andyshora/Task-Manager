@@ -98,5 +98,9 @@ everyone.now.sv_ChangeColor = function(username, color){
   	everyone.now.ChangeColor(username, color);
 };
 
+everyone.now.sv_AddToList = function(text, username){
+	console.log(username + " is adding task: " + text);
+  	everyone.now.AddToList(text, username);
+};
 
 
