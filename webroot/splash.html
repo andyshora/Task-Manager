@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Task Manager</title>
+<script src="js/jquery-1.6.4.min.js"></script>
+<style type="text/css">
+	body {
+		margin:0;
+		padding:0;
+		text-align: center;
+		font-family: Arial;
+	}
+	h1 {
+		font-family: Arial;
+		font-size: 20px;	
+		text-align: center;
+	}
+	
+	#new {
+		margin:60px auto 20px;
+	}
+</style>
+<script>
+	$(document).ready(function(){
+		$('#new').click(function(){
+			var token = $('#token').val();
+			$(this).attr('disabled', 'disabled');
+			
+			$.post(
+				'/new',
+				{ token: token },
+				function(data){
+					window.location = data.url
+				},
+				'json');
+			
+		});
+	});
+</script>
+</head>
+<body>
+		<button id="new">Create a new List</button>
+		<input type="hidden" id="token" value="1234" />
+</body>
+</html>
