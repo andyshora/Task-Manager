@@ -69,12 +69,15 @@ app.get('/', function(req, res){
 
 });
 
-app.get('/list', function(req, res){
-
+app.get(/[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9](\/|$)/, function(req, res){
+	// clean url	
+	var code = (req.url).replace(/\/$|^\//g,'');
+	
     itemProvider.findAll(function(error,docs){
         res.render('list.jade', { locals: {
             title: 'My List',
-            items: docs
+            items: docs,
+            code: code
             }
         });
     });
@@ -179,11 +182,11 @@ everyone.now.sv_ChangeColor = function(username, color){
 };
 
 everyone.now.sv_AddToList = function(text, username, code, pos){
-	console.log(username + " is adding task: " + text);
-	var itm = { url:code, itm:text, pos:pos, usr:username, date:new Date() };
+	console.log(username + " is adding task: " + text + ", code: " + code + ", pos: " + pos);
+	var itm = { url:code, itm:text, pos:pos, usr:username, cre:new Date() };
 	itemProvider.save(itm, function(error, docs) {
 		console.log("item added");
-        everyone.now.AddToList(text, username);
+        everyone.now.AddToList(text, username, pos);
     });
   	
 };

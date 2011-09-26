@@ -1,27 +1,17 @@
 script(type='text/javascript', src='/nowjs/now.js')
 script(type='text/javascript', src='/js/taskmanager-1.0.js')
-script
-	$(document).ready(function(){
-		
-		taskmanager.username = prompt("What's your name?", "");
-		now.username = taskmanager.username;
-		
-		//taskmanager.color = prompt("What's your color?", "");
-		taskmanager.color = 'white';
-		now.color = 'white';
-		
-		taskmanager.createUser(taskmanager.username, taskmanager.color);
-		//taskmanager.populateRoom();
-		
-	});
 header
 	#users_wrap
 		ul#users
 section
 	#list_wrap
-		ul#list
-			li#add_row
-				#add_wrap
+		#add_row
+			
+			ul#list
+				li#add_wrap
 					input(id='add', type='text')
+					input(id='url', type='hidden', value=code)
+				- each item in items
+					li.item= item.itm
 footer
 	#console

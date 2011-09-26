@@ -96,7 +96,7 @@ taskmanager.initControls = function(){
 	});
 };
 
-taskmanager.addToList = function(text){
+taskmanager.addToList = function(text, username, pos){
 	var html = '<li class="item">{0}</li>'.format(text);
 	if (($('li.item')).length > 0){
 		$('li.item:last').after(html);
@@ -110,6 +110,17 @@ taskmanager.addToList = function(text){
 
 
 $(document).ready(function(){
+
+	taskmanager.code = $("#url").val();
+	alert(taskmanager.code);
+	taskmanager.username = prompt("What's your name?", "");
+	now.username = taskmanager.username;
+	
+	taskmanager.color = 'white';
+	now.color = 'white';
+	
+	taskmanager.createUser(taskmanager.username, taskmanager.color);
+
 	
 	now.CreateUser = function(username, color){
 		//if () return false;
@@ -154,9 +165,9 @@ $(document).ready(function(){
 	};
 	
 	// add tast to list, if this user didnt add it
-	now.AddToList = function(text, username){
+	now.AddToList = function(text, username, pos){
 			if (username !== taskmanager.username){
-				taskmanager.addToList(text);
+				taskmanager.addToList(text, username, pos);
 			}
 	};
 	
