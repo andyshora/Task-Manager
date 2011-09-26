@@ -3,16 +3,16 @@ var fs = require('fs');
 var path = require('path');
 var mongo = require('mongodb');
 
-var server = http.createServer(function(request, response){
+var app = http.createServer(function(request, response){
   
+  	var filePath = '.' + request.url,	
+  	contentType = 'text/html',
+	extname = path.extname(filePath);
   
-  var filePath = '.' + request.url;
+  	// default document
 	if (filePath == './')
 		filePath = './webroot/index.html';
 		
-	var extname = path.extname(filePath);
-	var contentType = 'text/html';
-
 	switch (extname) {
 		case '.js':
 			contentType = 'text/javascript';
@@ -22,6 +22,7 @@ var server = http.createServer(function(request, response){
 			break;
 	}
 	
+	// serve up a static file
 	path.exists(filePath, function(exists) {
   		if (exists) {
   		
@@ -39,43 +40,46 @@ var server = http.createServer(function(request, response){
 			response.writeHead(404);
 			response.end();
 		}
-    
-	
-  		
-  
+
   });
+  /*
+  	// check for list url
+	if (filePath.match(/.\/[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9](\/|$)/)){
+		// we've matched a URL with 7 alphanumeric characters which is a list URL
+		console.log("list URL matched: " + filePath);
+
+		// todo
+		
+		fs.readFile("templates/list.html", function(error, content){
+	    		if (error) {
+						response.writeHead(500);
+						response.end();
+					}
+					else {
+						// need to do a lookup here and populate a template file with the stored items
+						// content = populateTemplate(content, filePath);
+						
+						response.writeHead(200, { 'Content-Type': contentType });
+						response.end(content, 'utf-8');
+					}
+	    	});
+	}
+*/
+  
+  
   
 });
-server.listen(8080);
+app.listen(8080);
 
-/*
-var client = new mongo.Db('test', new mongo.Server("127.0.0.1", 27017, {})),
-    test = function (err, collection) {
-      collection.insert({a:2}, function(err, docs) {
+// define instance of mongoDB
+var mdb = new mongo.Db('lists', new mongo.Server("127.0.0.1", 27017, {}));
+// open db connection
+mdb.open(function(err, p_client){});
 
-        collection.count(function(err, count) {
-          test.assertEquals(1, count);
-        });
-
-        // Locate all the entries using find
-        collection.find().toArray(function(err, results) {
-          test.assertEquals(1, results.length);
-          test.assertTrue(results.a === 2);
-
-          // Let's close the db
-          client.close();
-        });
-      });
-    };
-
-client.open(function(err, p_client) {
-  client.collection('test_insert', test);
-});
-*/
 
 
 var nowjs = require("now");
-var everyone = nowjs.initialize(server);
+var everyone = nowjs.initialize(app);
 
 
 nowjs.on('connect', function(){
@@ -102,10 +106,16 @@ everyone.now.changeRoom = function(newRoom){
   this.now.receiveMessage("SERVER", "You're now in " + this.now.room);
 };
 */
-everyone.now.sv_CreateUser = function(username, color){
-	console.log("Broadcasting user:" + username + " with color:" + color);
-  	//nowjs.getGroup(this.now.room).now.CreateUser(username, color);
-  	everyone.now.CreateUser(username, color);
+
+everyone.now.functionname = function(str){
+
+};
+
+everyone.now.addToList = function(code, str, position, username){
+	// insert new item into a list
+	itm = { url:code, itm:str, pos:position, usr:username, date:new Date() };
+	db.list.save(j);
+
 };
 
 everyone.now.sv_RequestBeacons = function(username){
@@ -128,4 +138,36 @@ everyone.now.sv_AddToList = function(text, username){
   	everyone.now.AddToList(text, username);
 };
 
+/*
+LIST
+{
+	_id: 0,
+	nam: '',
+	cre: new Date(),
+	ip: '',
+	src: '',
+	url: '',
+	ron: ''
+}
+ITEM
+{
+	_id: 0,
+	itm: '',
+	cre: '',
+	url: '',
+	pos: 0,
+	own: '',
+	com: [{
+		usr: '',
+		com: '',
+		cre: new Date(),
+	}],
+	cre: new Date(),
+	pri: 'normal',
+	due: new Date(),
+	sta: 'open'
+}
+
+
+*/
 
