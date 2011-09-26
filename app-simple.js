@@ -73,9 +73,9 @@ app.get(/[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA
 	// clean url	
 	var code = (req.url).replace(/\/$|^\//g,'');
 	
-    itemProvider.findAll(function(error,docs){
+    itemProvider.findByURL(code, function(error,docs){
         res.render('list.jade', { locals: {
-            title: 'My List',
+            title: 'List: ' + code,
             items: docs,
             code: code
             }

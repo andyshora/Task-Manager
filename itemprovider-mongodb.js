@@ -30,6 +30,19 @@ ItemProvider.prototype.findAll = function(callback) {
     });
 };
 
+//find by url
+ItemProvider.prototype.findByURL = function(url, callback) {
+    this.getCollection(function(error, item_collection) {
+      if( error ) callback(error)
+      else {
+        item_collection.find({'url': url}).toArray(function(error, result) {
+          if( error ) callback(error)
+          else callback(null, result)
+        });
+      }
+    });
+};
+
 //findById
 ItemProvider.prototype.findById = function(id, callback) {
     this.getCollection(function(error, item_collection) {
