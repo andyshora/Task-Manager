@@ -10,6 +10,7 @@ var taskmanager = {};
 // ------- VARS -------
 taskmanager.username = "";
 taskmanager.color = "";
+taskmanager.code = "123456";
 taskmanager.currentUsers = [];
 taskmanager.colors = ['red','blue','green','yellow','pink','purple','aqua','orange','white'];
 
@@ -90,7 +91,7 @@ taskmanager.initControls = function(){
 			taskmanager.log("Adding item: {0}".format(text));
 			taskmanager.addToList(text);
 			$(this).val('');
-			now.sv_AddToList(taskmanager.username, text);
+			now.sv_AddToList(text, taskmanager.username, taskmanager.code, 1);
 		}
 	});
 };
@@ -153,7 +154,7 @@ $(document).ready(function(){
 	};
 	
 	// add tast to list, if this user didnt add it
-	now.AddToList = function(username, text){
+	now.AddToList = function(text, username){
 			if (username !== taskmanager.username){
 				taskmanager.addToList(text);
 			}

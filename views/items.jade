@@ -2,9 +2,11 @@ h1= title
 #items
     - each item in items
       div.row
-        div.created_at= item.created_at
         div.item 
-            a(href="/item/"+item._id)!= item.itm
+            item.itm= item.itm
+            item.usr= item.usr
+            item.url= item.url
+            itm.cre= item.cre
 form(method="post", id="/item_new", action='/items/new')
     div
         div

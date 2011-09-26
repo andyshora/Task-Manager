@@ -69,6 +69,18 @@ app.get('/', function(req, res){
 
 });
 
+app.get('/list', function(req, res){
+
+    itemProvider.findAll(function(error,docs){
+        res.render('list.jade', { locals: {
+            title: 'My List',
+            items: docs
+            }
+        });
+    });
+    
+});
+
 app.get('/items', function(req, res){
 
     itemProvider.findAll(function(error,docs){
@@ -119,7 +131,7 @@ app.listen(8080);
 
 var everyone = nowjs.initialize(app);
 
-/*
+
 nowjs.on('connect', function(){
   this.now.room = "Room 1";
   //nowjs.getGroup(this.now.room).addUser(this.user.clientId);
@@ -136,7 +148,7 @@ nowjs.on('disconnect', function(){
   console.log("Left: " + this.now.username);
   everyone.now.RemoveUser(this.now.username);
 });
-*/
+
 /*
 everyone.now.changeRoom = function(newRoom){
   nowjs.getGroup(this.now.room).removeUser(this.user.clientId);
@@ -144,18 +156,12 @@ everyone.now.changeRoom = function(newRoom){
   this.now.room = newRoom;
   this.now.receiveMessage("SERVER", "You're now in " + this.now.room);
 };
-*/
 
 everyone.now.functionname = function(str){
 
 };
+*/
 
-everyone.now.addToList = function(code, str, position, username){
-	// insert new item into a list
-	itm = { url:code, itm:str, pos:position, usr:username, date:new Date() };
-	db.list.save(j);
-
-};
 
 everyone.now.sv_RequestBeacons = function(username){
 	console.log(username + " has joined, requesting beacons from other users.");
@@ -172,9 +178,14 @@ everyone.now.sv_ChangeColor = function(username, color){
   	everyone.now.ChangeColor(username, color);
 };
 
-everyone.now.sv_AddToList = function(text, username){
+everyone.now.sv_AddToList = function(text, username, code, pos){
 	console.log(username + " is adding task: " + text);
-  	everyone.now.AddToList(text, username);
+	var itm = { url:code, itm:text, pos:pos, usr:username, date:new Date() };
+	itemProvider.save(itm, function(error, docs) {
+		console.log("item added");
+        everyone.now.AddToList(text, username);
+    });
+  	
 };
 
 /*
