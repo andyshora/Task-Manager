@@ -1,17 +1,23 @@
 script(type='text/javascript', src='/nowjs/now.js')
 script(type='text/javascript', src='/js/taskmanager-1.0.js')
-header
-	#users_wrap
-		ul#users
+script(type='text/javascript', src='/js/jquery.hotkeys.js')
+header.turbo
+	#header_wrap.turbo
+		#users_wrap
+			ul#users
 section
 	#list_wrap
 		#add_row
 			
 			ul#list
-				li#add_wrap
-					input(id='add', type='text')
-					input(id='url', type='hidden', value=code)
+				li#add_row
+						#add_wrap
+							input(id='add', type='text')
+							input(id='url', type='hidden', value=code)
+							input(id='sta', type='hidden', value='normal')
 				- each item in items
-					li.item= item.itm
+					li.item
+						input(class='check', type='checkbox')
+						span.itm= item.itm
 footer
 	#console

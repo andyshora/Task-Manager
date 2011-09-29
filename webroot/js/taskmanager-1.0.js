@@ -85,21 +85,25 @@ taskmanager.initColorPicker = function(){
 };
 
 taskmanager.initControls = function(){
-	$('#add').bind('keydown', function(e){
-		if (e.keyCode == 13){
+	$('#add').bind('keydown', 'return', function(){
 			var text = $(this).val();
 			taskmanager.log("Adding item: {0}".format(text));
 			taskmanager.addToList(text);
 			$(this).val('');
 			now.sv_AddToList(text, taskmanager.username, taskmanager.code, 1);
-		}
+	});
+	
+	$(document).bind('keydown', 'crtl+i', function(){
+		$('#add').focus();
+	})
+	.bind('keydown', 'esc', function(){
+		$('#add').blur();
 	});
 };
-
 taskmanager.addToList = function(text, username, pos){
-	var html = '<li class="item">{0}</li>'.format(text);
+	var html = '<li class="item"><input type="checkbox" class-"check" value="1" /><span class="itm">{0}</span></li>'.format(text);
 	if (($('li.item')).length > 0){
-		$('li.item:last').after(html);
+		$('li.item:last').before(html);
 	} else {
 		$('li#add_row').before(html);
 	}
@@ -112,7 +116,6 @@ taskmanager.addToList = function(text, username, pos){
 $(document).ready(function(){
 
 	taskmanager.code = $("#url").val();
-	alert(taskmanager.code);
 	taskmanager.username = prompt("What's your name?", "");
 	now.username = taskmanager.username;
 	
@@ -170,6 +173,8 @@ $(document).ready(function(){
 				taskmanager.addToList(text, username, pos);
 			}
 	};
+	
+	
 	
 	taskmanager.initColorPicker();
 	taskmanager.initControls();

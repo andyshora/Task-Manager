@@ -16,6 +16,15 @@ header {
 	float:left;
 	clear:both;
 }
+header.turbo {
+	height: 200px;
+}
+header > #header_wrap.turbo {
+	height:200px;
+	background:url(../images/sht..png) 0 0 no-repeat;
+	width:600px;
+	margin:0 auto;
+}
 section {
 	clear:both;
 }
@@ -105,27 +114,28 @@ section {
 		ul#list > li {
 			width:500px;
 			height:24px;
-			padding:11px 5px 0px 5px;
-			border-bottom: 1px dashed #ccc;
+			padding:8px 5px 0px 5px;
+			/*border-bottom: 1px dashed #ccc;*/
 			font-size: 14px;
 			line-height:14px;
+			list-style-type: none;
 		}
 		ul#list > li#add_row {
-			padding:5px;
-			height:30px;
-			border:0;
+			height:24px;
+			padding:5px 5px 3px 5px;
 		}
-			div#add_wrap {
+			#add_wrap {
 				
 			}
 				input#add {
 					width:490px;
-					height:25px;
+					height:20px;
 					border: none;
-					padding:0;
+					padding: 0 0 4px;
 					font-family: Arial;
 					font-size: 14px;
 					outline:none;
+					line-height: 17px;
 				}
 
 footer > div#console {

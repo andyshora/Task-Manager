@@ -106,7 +106,12 @@ app.get('/items/new', function(req, res) {
 app.post('/items/new_form', function(req, res){
     itemProvider.save({
         itm: req.param('item'),
-        usr: req.param('username')
+        url: req.param('url'),
+        usr: req.param('username'),
+        sta: req.param('status'),
+        pri: req.param('priority'),
+        due: req.param('due'),
+        cre: new Date()
     }, function(error, docs) {
         res.redirect('/items');
     });
@@ -115,15 +120,28 @@ app.post('/items/new_form', function(req, res){
 app.post('/items/new', function(req, res){
     itemProvider.save({
         itm: req.param('item'),
-        usr: req.param('username')
+        url: req.param('url'),
+        usr: req.param('username'),
+        sta: req.param('status'),
+        pri: req.param('priority'),
+        due: req.param('due'),
+        cre: new Date()
     }, function(error, docs) {
-    	var content = {status:true};
+    	var content = (error=="") ? {status:true} : {status:false};
         res.writeHead(200, { 'Content-Type': 'application/json' });
 		res.end(content, 'utf-8');
     });
 });
 
-
+app.post('/items/delete', function(req, res){
+    itemProvider.delete({
+        _id: req.param('id') // friendly id passed
+    }, function(error, docs) {
+    	var content = (error=="") ? {status:true} : {status:false};
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+		res.end(content, 'utf-8');
+    });
+});
 
 app.post('/upload', function(req, res){
     upload_file(req, res);
@@ -177,13 +195,21 @@ everyone.now.sv_SendBeacon = function(new_username, username, color){
 };
 
 everyone.now.sv_ChangeColor = function(username, color){
+	console.log("this.now.username: " + this.now.username);
 	console.log(username + " is changing their to " + color);
   	everyone.now.ChangeColor(username, color);
 };
 
-everyone.now.sv_AddToList = function(text, username, code, pos){
+everyone.now.sv_AddToList = function(text, username, code, pos, pri, sta){
 	console.log(username + " is adding task: " + text + ", code: " + code + ", pos: " + pos);
-	var itm = { url:code, itm:text, pos:pos, usr:username, cre:new Date() };
+	var itm = { url:code,
+				itm:text, 
+				pos:pos, 
+				own:username, 
+				cre:new Date(),
+				pri:pri,
+				sta:sta
+				};
 	itemProvider.save(itm, function(error, docs) {
 		console.log("item added");
         everyone.now.AddToList(text, username, pos);

@@ -35,7 +35,7 @@ ItemProvider.prototype.findByURL = function(url, callback) {
     this.getCollection(function(error, item_collection) {
       if( error ) callback(error)
       else {
-        item_collection.find({'url': url}).toArray(function(error, result) {
+        item_collection.find({'url': url}).sort({pos: 1}).toArray(function(error, result) {
           if( error ) callback(error)
           else callback(null, result)
         });
